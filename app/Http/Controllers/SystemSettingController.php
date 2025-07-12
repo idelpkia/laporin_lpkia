@@ -2,83 +2,59 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\SystemSettingRequest;
+use App\Models\SystemSetting;
 use Illuminate\Http\Request;
 
 class SystemSettingController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+    // Daftar semua setting
     public function index()
     {
-        //
+        $systemSettings = SystemSetting::paginate(10);
+        return view('system_settings.index', compact('systemSettings'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+    // Form tambah setting
     public function create()
     {
-        //
+        return view('system_settings.create');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
+    // Simpan setting baru
+    public function store(SystemSettingRequest $request)
     {
-        //
+        $data = $request->validated();
+        $setting = SystemSetting::create($data);
+
+        return redirect()->route('system-settings.show', $setting)->with('success', 'Pengaturan berhasil ditambah.');
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
+    // Detail setting
+    public function show(SystemSetting $systemSetting)
     {
-        //
+        return view('system_settings.show', compact('systemSetting'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
+    // Form edit
+    public function edit(SystemSetting $systemSetting)
     {
-        //
+        return view('system_settings.edit', compact('systemSetting'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
+    // Update setting
+    public function update(SystemSettingRequest $request, SystemSetting $systemSetting)
     {
-        //
+        $data = $request->validated();
+        $systemSetting->update($data);
+
+        return redirect()->route('system-settings.show', $systemSetting)->with('success', 'Pengaturan berhasil diupdate.');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
+    // Hapus (softdelete, jika model pakai SoftDeletes)
+    public function destroy(SystemSetting $systemSetting)
     {
-        //
+        $systemSetting->delete();
+        return redirect()->route('system-settings.index')->with('success', 'Pengaturan berhasil dihapus.');
     }
 }

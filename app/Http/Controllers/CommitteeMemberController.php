@@ -2,83 +2,63 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\CommitteeMemberRequest;
+use App\Models\CommitteeMember;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class CommitteeMemberController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+    // Daftar semua anggota KIA
     public function index()
     {
-        //
+        $committeeMembers = CommitteeMember::with('user')->paginate(10);
+        return view('committee_members.index', compact('committeeMembers'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+    // Form tambah anggota
     public function create()
     {
-        //
+        $users = User::all();
+        return view('committee_members.create', compact('users'));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
+    // Simpan data baru
+    public function store(CommitteeMemberRequest $request)
     {
-        //
+        $data = $request->validated();
+        $committeeMember = CommitteeMember::create($data);
+
+        return redirect()->route('committee-members.show', $committeeMember)->with('success', 'Anggota KIA berhasil ditambah.');
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
+    // Detail anggota
+    public function show(CommitteeMember $committeeMember)
     {
-        //
+        $committeeMember->load('user');
+        return view('committee_members.show', compact('committeeMember'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
+    // Form edit
+    public function edit(CommitteeMember $committeeMember)
     {
-        //
+        $users = User::all();
+        return view('committee_members.edit', compact('committeeMember', 'users'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
+    // Update data
+    public function update(CommitteeMemberRequest $request, CommitteeMember $committeeMember)
     {
-        //
+        $data = $request->validated();
+        $committeeMember->update($data);
+
+        return redirect()->route('committee-members.show', $committeeMember)->with('success', 'Anggota KIA berhasil diupdate.');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
+    // Hapus data (softdelete, jika model pakai SoftDeletes)
+    public function destroy(CommitteeMember $committeeMember)
     {
-        //
+        $committeeMember->delete();
+        return redirect()->route('committee-members.index')->with('success', 'Anggota KIA berhasil dihapus.');
     }
 }

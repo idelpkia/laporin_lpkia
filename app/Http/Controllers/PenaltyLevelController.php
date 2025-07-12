@@ -2,83 +2,59 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\PenaltyLevelRequest;
+use App\Models\PenaltyLevel;
 use Illuminate\Http\Request;
 
 class PenaltyLevelController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+    // Daftar semua tingkat sanksi
     public function index()
     {
-        //
+        $penaltyLevels = PenaltyLevel::paginate(10);
+        return view('penalty_levels.index', compact('penaltyLevels'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+    // Form tambah tingkat sanksi
     public function create()
     {
-        //
+        return view('penalty_levels.create');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
+    // Simpan data baru
+    public function store(PenaltyLevelRequest $request)
     {
-        //
+        $data = $request->validated();
+        $penaltyLevel = PenaltyLevel::create($data);
+
+        return redirect()->route('penalty-levels.show', $penaltyLevel)->with('success', 'Tingkat sanksi berhasil ditambah.');
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
+    // Tampilkan detail
+    public function show(PenaltyLevel $penaltyLevel)
     {
-        //
+        return view('penalty_levels.show', compact('penaltyLevel'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
+    // Form edit
+    public function edit(PenaltyLevel $penaltyLevel)
     {
-        //
+        return view('penalty_levels.edit', compact('penaltyLevel'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
+    // Update data
+    public function update(PenaltyLevelRequest $request, PenaltyLevel $penaltyLevel)
     {
-        //
+        $data = $request->validated();
+        $penaltyLevel->update($data);
+
+        return redirect()->route('penalty-levels.show', $penaltyLevel)->with('success', 'Tingkat sanksi berhasil diupdate.');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
+    // Hapus data (softdelete, jika model pakai SoftDeletes)
+    public function destroy(PenaltyLevel $penaltyLevel)
     {
-        //
+        $penaltyLevel->delete();
+        return redirect()->route('penalty-levels.index')->with('success', 'Tingkat sanksi berhasil dihapus.');
     }
 }
