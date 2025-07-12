@@ -12,13 +12,13 @@ class ViolationTypeController extends Controller
     public function index()
     {
         $violationTypes = ViolationType::paginate(10);
-        return view('violation_types.index', compact('violationTypes'));
+        return view('pages.violation_types.index', compact('violationTypes'));
     }
 
     // Form tambah jenis pelanggaran
     public function create()
     {
-        return view('violation_types.create');
+        return view('pages.violation_types.create');
     }
 
     // Simpan data baru
@@ -33,13 +33,13 @@ class ViolationTypeController extends Controller
     // Tampilkan detail
     public function show(ViolationType $violationType)
     {
-        return view('violation_types.show', compact('violationType'));
+        return view('pages.violation_types.show', compact('violationType'));
     }
 
     // Form edit
     public function edit(ViolationType $violationType)
     {
-        return view('violation_types.edit', compact('violationType'));
+        return view('pages.violation_types.edit', compact('violationType'));
     }
 
     // Update data

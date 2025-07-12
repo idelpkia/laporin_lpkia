@@ -1,11 +1,14 @@
 <?php
 
+use App\Http\Controllers\AppealController;
 use App\Http\Controllers\CommitteeMemberController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\InvestigationController;
 use App\Http\Controllers\PenaltyController;
 use App\Http\Controllers\PenaltyLevelController;
 use App\Http\Controllers\ReportController;
+use App\Http\Controllers\SystemSettingController;
+use App\Http\Controllers\UserController;
 use App\Http\Controllers\ViolationTypeController;
 use Illuminate\Support\Facades\Route;
 
@@ -22,12 +25,15 @@ use Illuminate\Support\Facades\Route;
 
 Route::middleware('auth')->group(function () {
     Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
+    Route::resource('users', UserController::class);
     Route::resource('reports', ReportController::class);
     Route::resource('penalties', PenaltyController::class);
     Route::resource('investigations', InvestigationController::class);
     Route::resource('violation-types', ViolationTypeController::class);
     Route::resource('penalty-levels', PenaltyLevelController::class);
     Route::resource('committee-members', CommitteeMemberController::class);
+    Route::resource('system-settings', SystemSettingController::class);
+    Route::resource('appeals', AppealController::class);
 });
 
 

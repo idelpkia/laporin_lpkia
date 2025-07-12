@@ -12,7 +12,7 @@ class PenaltyLevelController extends Controller
     public function index()
     {
         $penaltyLevels = PenaltyLevel::paginate(10);
-        return view('penalty_levels.index', compact('penaltyLevels'));
+        return view('pages.penalty_levels.index', compact('penaltyLevels'));
     }
 
     // Form tambah tingkat sanksi

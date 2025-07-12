@@ -54,7 +54,7 @@ class DashboardController extends Controller
 
         $recentActivities = WorkflowLog::with('actionBy')->latest()->take(10)->get();
 
-        return view('dashboard.admin', compact(
+        return view('pages.dashboard.admin', compact(
             'totalReports',
             'activeInvestigations',
             'totalUsers',
@@ -79,7 +79,7 @@ class DashboardController extends Controller
         $activeInvestigationsTable = Investigation::with('report', 'teamLeader')->where('status', '!=', 'completed')->latest()->take(5)->get();
         $notifications = Notification::where('user_id', auth()->id())->latest()->take(5)->get();
 
-        return view('dashboard.kia', compact(
+        return view('pages.dashboard.kia', compact(
             'incomingReports',
             'pendingValidations',
             'activeInvestigations',
@@ -108,10 +108,10 @@ class DashboardController extends Controller
         $completedInvestigations = $myInvestigations->where('status', 'completed')->count();
 
         $myActivities = $user->investigationActivities()->latest()->take(5)->get();
-        return $myActivities;
+        // return $myActivities;
         $notifications = Notification::where('user_id', $user->id)->latest()->take(5)->get();
 
-        return view('dashboard.investigator', compact(
+        return view('pages.dashboard.investigator', compact(
             'totalInvestigations',
             'activeInvestigations',
             'completedInvestigations',
@@ -136,7 +136,7 @@ class DashboardController extends Controller
         $myAppeals = Appeal::where('appellant_id', $user->id)->with('report')->latest()->get();
         $notifications = Notification::where('user_id', $user->id)->latest()->take(5)->get();
 
-        return view('dashboard.pelapor', compact(
+        return view('pages.dashboard.pelapor', compact(
             'myReports',
             'myReportsCount',
             'myInvestigationCount',

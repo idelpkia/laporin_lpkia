@@ -35,7 +35,7 @@ class ReportController extends Controller
     public function create()
     {
         $violationTypes = ViolationType::all();
-        return view('reports.create', compact('violationTypes'));
+        return view('pages.reports.create', compact('violationTypes'));
     }
 
     /**

@@ -16,11 +16,10 @@ class CreateInvestigationsTable extends Migration
         Schema::create('investigations', function (Blueprint $table) {
             $table->id();
             $table->foreignId('report_id')->constrained('reports');
-            $table->enum('document_type', ['evidence', 'similarity_report', 'original_document', 'screenshot', 'recording']);
-            $table->string('file_name');
-            $table->string('file_path');
-            $table->bigInteger('file_size')->nullable();
-            $table->string('mime_type')->nullable();
+            $table->foreignId('team_leader_id')->constrained('users');
+            $table->enum('status', ['formed', 'document_review', 'calling_parties', 'report_writing', 'completed']);
+            $table->date('start_date')->nullable();
+            $table->date('end_date')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });
