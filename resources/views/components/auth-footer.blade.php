@@ -1,3 +1,3 @@
   <div class="simple-footer">
-      Copyright &copy; Stisla 2018
+      Copyright &copy; {{ date('Y') }} <div class="bullet"></div> Developed By MIS LPKIA
   </div>

@@ -4340,3 +4340,169 @@ body:not(.sidebar-mini) .sidebar-style-2 .sidebar-menu li.active ul.dropdown-men
     opacity: 0;
   }
 }
+
+/* Custom CSS untuk Report Detail - tambahkan ke file CSS utama */
+
+/* Report Detail Styling */
+.report-detail .table-borderless td {
+  border: none;
+  padding: 8px 0;
+}
+
+.report-detail .table-borderless td:first-child {
+  font-weight: 600;
+  color: #34395e;
+}
+
+.empty-state {
+  text-align: center;
+  padding: 50px 20px;
+}
+
+.empty-state .empty-state-icon {
+  font-size: 4rem;
+  color: #dee2e6;
+  margin-bottom: 20px;
+}
+
+.empty-state h2 {
+  color: #6c757d;
+  margin-bottom: 15px;
+}
+
+.empty-state .lead {
+  color: #6c757d;
+  font-size: 1.1rem;
+}
+
+/* Document Table Styling */
+.document-table .badge {
+  font-size: 0.75rem;
+  padding: 4px 8px;
+}
+
+.document-table .btn-sm {
+  padding: 4px 8px;
+  font-size: 0.75rem;
+  margin-right: 5px;
+}
+
+/* Modal Styling */
+.modal-header {
+  background-color: #f8f9fa;
+  border-bottom: 1px solid #dee2e6;
+}
+
+.modal-title {
+  font-weight: 600;
+  color: #34395e;
+}
+
+/* Status Badge Custom Colors */
+.badge-pill {
+  border-radius: 50rem;
+  font-size: 0.8rem;
+  padding: 6px 12px;
+}
+
+/* File Upload Styling */
+.form-control-file {
+  border: 2px dashed #dee2e6;
+  border-radius: 8px;
+  padding: 20px;
+  text-align: center;
+  transition: all 0.3s ease;
+}
+
+.form-control-file:hover {
+  border-color: #6777ef;
+  background-color: #f8f9ff;
+}
+
+/* Responsive Table */
+@media (max-width: 768px) {
+  .table-responsive {
+    font-size: 0.9rem;
+  }
+
+  .btn-sm {
+    padding: 2px 6px;
+    font-size: 0.7rem;
+  }
+}
+
+/* Action Buttons */
+.action-buttons {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.action-buttons .btn {
+  margin-bottom: 5px;
+}
+
+/* Card Header Actions */
+.card-header-action {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+/* Status Colors */
+.text-submitted {
+  color: #ffc107;
+}
+
+.text-validated {
+  color: #17a2b8;
+}
+
+.text-under_investigation {
+  color: #007bff;
+}
+
+.text-completed {
+  color: #28a745;
+}
+
+.text-rejected {
+  color: #dc3545;
+}
+
+.text-appeal {
+  color: #6c757d;
+}
+
+/* Loading States */
+.loading-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+}
+
+.loading-spinner {
+  border: 4px solid #f3f3f3;
+  border-top: 4px solid #6777ef;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
+}

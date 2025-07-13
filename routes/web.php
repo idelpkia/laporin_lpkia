@@ -26,7 +26,6 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth')->group(function () {
     Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
     Route::resource('users', UserController::class);
-    Route::resource('reports', ReportController::class);
     Route::resource('penalties', PenaltyController::class);
     Route::resource('investigations', InvestigationController::class);
     Route::resource('violation-types', ViolationTypeController::class);
@@ -34,11 +33,22 @@ Route::middleware('auth')->group(function () {
     Route::resource('committee-members', CommitteeMemberController::class);
     Route::resource('system-settings', SystemSettingController::class);
     Route::resource('appeals', AppealController::class);
+
+    // Resource routes untuk reports
+    Route::resource('reports', ReportController::class);
+
+    // Routes untuk document management
+    Route::post('/reports/{report}/documents', [ReportController::class, 'addDocument'])->name('reports.documents.add');
+    Route::delete('/reports/{report}/documents/{document}', [ReportController::class, 'deleteDocument'])->name('reports.documents.delete');
+    Route::get('/reports/{report}/documents/{document}/download', [ReportController::class, 'downloadDocument'])->name('reports.documents.download');
+
+    // Route untuk change status
+    Route::post('/reports/{report}/change-status', [ReportController::class, 'changeStatus'])->name('reports.change-status');
 });
 
 
 
 
-Route::post('reports/{report}/documents', [ReportController::class, 'addDocument'])->name('reports.documents.store');
-Route::delete('reports/{report}/documents/{document}', [ReportController::class, 'deleteDocument'])->name('reports.documents.destroy');
-Route::post('reports/{report}/change-status', [ReportController::class, 'changeStatus'])->name('reports.changeStatus');
+// Route::post('reports/{report}/documents', [ReportController::class, 'addDocument'])->name('reports.documents.store');
+// Route::delete('reports/{report}/documents/{document}', [ReportController::class, 'deleteDocument'])->name('reports.documents.destroy');
+// Route::post('reports/{report}/change-status', [ReportController::class, 'changeStatus'])->name('reports.changeStatus');
