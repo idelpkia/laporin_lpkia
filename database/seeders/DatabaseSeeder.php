@@ -15,12 +15,10 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        User::firstOrCreate(
-            ['email' => 'admin1@admin.com'],
-            [
-                'name' => 'Admin Default',
-                'password' => Hash::make('123456'),
-            ]
-        );
+        $this->call([
+            UsersTableSeeder::class,
+            ViolationTypesTableSeeder::class,
+            PenaltyLevelsTableSeeder::class,
+        ]);
     }
 }

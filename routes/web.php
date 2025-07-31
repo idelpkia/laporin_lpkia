@@ -26,7 +26,6 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth')->group(function () {
     Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
     Route::resource('users', UserController::class);
-    Route::resource('reports', ReportController::class);
     Route::resource('penalties', PenaltyController::class);
     Route::resource('investigations', InvestigationController::class);
     Route::resource('violation-types', ViolationTypeController::class);
@@ -34,7 +33,6 @@ Route::middleware('auth')->group(function () {
     Route::resource('committee-members', CommitteeMemberController::class);
     Route::resource('system-settings', SystemSettingController::class);
     Route::resource('appeals', AppealController::class);
-
     Route::post('/admin/generate-css', [App\Http\Controllers\ThemeController::class, 'generateCSS'])->name('admin.generate-css');
 });
 

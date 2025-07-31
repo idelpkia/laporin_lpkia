@@ -14,12 +14,8 @@
 
         @stack('style')
 
-
         <!-- Template CSS -->
         <link rel="stylesheet" href="{{ asset('css/style.css') }}">
-
-        <!-- Custom Theme CSS -->
-        <link rel="stylesheet" href="{{ asset('css/custom-theme.css') }}?v={{ time() }}">
         <link rel="stylesheet" href="{{ asset('css/components.css') }}">
 
         <style>
@@ -61,7 +57,8 @@
         </style>
 
         <!-- Start GA -->
-        {{-- <script async src="https://www.googletagmanager.com/gtag/js?id=UA-94034622-3"></script>
+        /*
+        <script async src="https://www.googletagmanager.com/gtag/js?id=UA-94034622-3"></script>
         <script>
             window.dataLayer = window.dataLayer || [];
 
@@ -71,7 +68,7 @@
             gtag('js', new Date());
 
             gtag('config', 'UA-94034622-3');
-        </script> --}}
+        </script> */
         <!-- END GA -->
     </head>
     </head>

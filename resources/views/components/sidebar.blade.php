@@ -1,8 +1,12 @@
 <div class="main-sidebar sidebar-style-2">
     <aside id="sidebar-wrapper">
         <div class="sidebar-brand">
-            <a href="{{ route('dashboard') }}">{{ $appName }}</a>
+            <a href="{{ route('dashboard') }}" class="d-flex align-items-center justify-content-center">
+                <img src="{{ asset('img/logo/lpkia.png') }}" alt="Logo SIPERLA" class="mr-2" style="height: 40px;">
+                <span class="font-weight-bold">{{ $appName }}</span>
+            </a>
         </div>
+
         <div class="sidebar-brand sidebar-brand-sm">
             <a href="{{ route('dashboard') }}">SP</a>
         </div>
