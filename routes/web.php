@@ -34,6 +34,8 @@ Route::middleware('auth')->group(function () {
     Route::resource('committee-members', CommitteeMemberController::class);
     Route::resource('system-settings', SystemSettingController::class);
     Route::resource('appeals', AppealController::class);
+
+    Route::post('/admin/generate-css', [App\Http\Controllers\ThemeController::class, 'generateCSS'])->name('admin.generate-css');
 });
 
 

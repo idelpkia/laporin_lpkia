@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use Illuminate\Validation\Rule;
 use Illuminate\Foundation\Http\FormRequest;
 
 class PenaltyLevelRequest extends FormRequest
@@ -25,7 +26,11 @@ class PenaltyLevelRequest extends FormRequest
     {
         // unique pada level, abaikan id sekarang jika update
         return [
-            'level'       => 'required|in:light,medium,heavy|unique:penalty_levels,level,' . $this->penalty_level,
+            'level' => [
+                'required',
+                'in:light,medium,heavy',
+                Rule::unique('penalty_levels')->ignore($this->route('penalty_level'))
+            ],
             'description' => 'nullable|string',
         ];
     }

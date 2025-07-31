@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class SystemSettingRequest extends FormRequest
 {
@@ -23,8 +24,17 @@ class SystemSettingRequest extends FormRequest
      */
     public function rules()
     {
+        $settingId = $this->system_setting instanceof \App\Models\SystemSetting
+            ? $this->system_setting->id
+            : $this->system_setting;
+
         return [
-            'key'         => 'required|string|max:100|unique:system_settings,key,' . $this->system_setting,
+            'key'         => [
+                'required',
+                'string',
+                'max:100',
+                Rule::unique('system_settings', 'key')->ignore($settingId),
+            ],
             'value'       => 'nullable|string',
             'description' => 'nullable|string',
         ];

@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Services\SettingService;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -23,6 +24,12 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
+        view()->composer('*', function ($view) {
+            $view->with([
+                'appName' => SettingService::get('app_name', 'Default'),
+                'footerText' => SettingService::get('footer_text', 'Admin'),
+                'appVersion' => SettingService::get('app_version', '0.0.0')
+            ]);
+        });
     }
 }

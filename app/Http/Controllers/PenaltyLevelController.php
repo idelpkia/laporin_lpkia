@@ -18,7 +18,7 @@ class PenaltyLevelController extends Controller
     // Form tambah tingkat sanksi
     public function create()
     {
-        return view('penalty_levels.create');
+        return view('pages.penalty_levels.create');
     }
 
     // Simpan data baru
@@ -33,13 +33,13 @@ class PenaltyLevelController extends Controller
     // Tampilkan detail
     public function show(PenaltyLevel $penaltyLevel)
     {
-        return view('penalty_levels.show', compact('penaltyLevel'));
+        return view('pages.penalty_levels.show', compact('penaltyLevel'));
     }
 
     // Form edit
     public function edit(PenaltyLevel $penaltyLevel)
     {
-        return view('penalty_levels.edit', compact('penaltyLevel'));
+        return view('pages.penalty_levels.edit', compact('penaltyLevel'));
     }
 
     // Update data

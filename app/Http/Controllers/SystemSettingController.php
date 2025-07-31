@@ -12,13 +12,13 @@ class SystemSettingController extends Controller
     public function index()
     {
         $systemSettings = SystemSetting::paginate(10);
-        return view('system_settings.index', compact('systemSettings'));
+        return view('pages.system_settings.index', compact('systemSettings'));
     }
 
     // Form tambah setting
     public function create()
     {
-        return view('system_settings.create');
+        return view('pages.system_settings.create');
     }
 
     // Simpan setting baru
@@ -27,19 +27,24 @@ class SystemSettingController extends Controller
         $data = $request->validated();
         $setting = SystemSetting::create($data);
 
+        // Jika setting adalah warna, regenerasi CSS tema
+        if (str_contains($setting->key, '_color')) {
+            app(ThemeController::class)->generateCSS();
+        }
+
         return redirect()->route('system-settings.show', $setting)->with('success', 'Pengaturan berhasil ditambah.');
     }
 
     // Detail setting
     public function show(SystemSetting $systemSetting)
     {
-        return view('system_settings.show', compact('systemSetting'));
+        return view('pages.system_settings.show', compact('systemSetting'));
     }
 
     // Form edit
     public function edit(SystemSetting $systemSetting)
     {
-        return view('system_settings.edit', compact('systemSetting'));
+        return view('pages.system_settings.edit', compact('systemSetting'));
     }
 
     // Update setting
@@ -47,6 +52,11 @@ class SystemSettingController extends Controller
     {
         $data = $request->validated();
         $systemSetting->update($data);
+
+        // Jika setting adalah warna, regenerasi CSS tema
+        if (str_contains($systemSetting->key, '_color')) {
+            app(ThemeController::class)->generateCSS();
+        }
 
         return redirect()->route('system-settings.show', $systemSetting)->with('success', 'Pengaturan berhasil diupdate.');
     }

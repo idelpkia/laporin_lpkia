@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class ViolationTypeRequest extends FormRequest
 {
@@ -23,8 +24,18 @@ class ViolationTypeRequest extends FormRequest
      */
     public function rules()
     {
+        $violationTypeId = $this->violation_type instanceof \App\Models\ViolationType
+            ? $this->violation_type->id
+            : $this->violation_type;
+
         return [
-            'code'        => 'required|string|max:50|unique:violation_types,code,' . $this->violation_type,
+            'code' => [
+                'required',
+                'string',
+                'max:50',
+                Rule::unique('violation_types', 'code')->ignore($violationTypeId),
+            ],
+
             'name'        => 'required|string|max:255',
             'description' => 'nullable|string',
             'category'    => 'required|in:plagiarism,fabrication,collusion,document_forgery,ip_violation',
