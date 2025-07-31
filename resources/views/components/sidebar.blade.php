@@ -41,6 +41,31 @@
                         <i class="fas fa-cogs"></i> <span>Pengaturan Sistem</span>
                     </a>
                 </li>
+                <li class="{{ request()->is('reports*') ? 'active' : '' }}">
+                    <a class="nav-link" href="{{ route('reports.index') }}">
+                        <i class="fas fa-clipboard"></i> <span>Manajemen Laporan</span>
+                    </a>
+                </li>
+                <li class="{{ request()->is('committee-members*') ? 'active' : '' }}">
+                    <a class="nav-link" href="{{ route('committee-members.index') }}">
+                        <i class="fas fa-user-shield"></i> <span>Anggota KIA</span>
+                    </a>
+                </li>
+                <li class="{{ request()->is('penalties*') ? 'active' : '' }}">
+                    <a class="nav-link" href="{{ route('penalties.index') }}">
+                        <i class="fas fa-gavel"></i> <span>Penetapan Sanksi</span>
+                    </a>
+                </li>
+                <li class="{{ request()->is('investigations*') ? 'active' : '' }}">
+                    <a class="nav-link" href="{{ route('investigations.index') }}">
+                        <i class="fas fa-users-cog"></i> <span>Manajemen Investigasi</span>
+                    </a>
+                </li>
+                <li class="{{ request()->is('appeals*') ? 'active' : '' }}">
+                    <a class="nav-link" href="{{ route('appeals.index') }}">
+                        <i class="fas fa-bullhorn"></i> <span>Manajemen Banding</span>
+                    </a>
+                </li>
             @endif
 
             {{-- Menu KIA Member --}}

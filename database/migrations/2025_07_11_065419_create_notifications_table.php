@@ -17,7 +17,7 @@ class CreateNotificationsTable extends Migration
             $table->id();
             $table->foreignId('user_id')->constrained('users');
             $table->foreignId('report_id')->nullable()->constrained('reports');
-            $table->enum('type', ['email', 'sms', 'system']);
+            $table->enum('type', ['email', 'sms', 'system', 'new_report', 'report_updated', 'investigation_started', 'investigation_completed', 'appeal_submitted', 'appeal_reviewed', 'penalty_assigned']);
             $table->string('title');
             $table->text('message');
             $table->timestamp('sent_at')->nullable();

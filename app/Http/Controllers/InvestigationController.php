@@ -9,10 +9,21 @@ use App\Http\Requests\TeamMemberRequest;
 use App\Models\Investigation;
 use App\Models\Report;
 use App\Models\User;
+use App\Services\NotificationService;
 use Illuminate\Http\Request;
 
 class InvestigationController extends Controller
 {
+
+    // Notification service for sending notifications
+    // This service should be defined in your application to handle notifications
+    protected $notificationService;
+
+    public function __construct(NotificationService $notificationService)
+    {
+        $this->notificationService = $notificationService;
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -21,7 +32,7 @@ class InvestigationController extends Controller
     public function index()
     {
         $investigations = Investigation::with('report', 'teamLeader')->paginate(10);
-        return view('investigations.index', compact('investigations'));
+        return view('pages.investigations.index', compact('investigations'));
     }
 
     /**
@@ -33,7 +44,7 @@ class InvestigationController extends Controller
     {
         $reports = Report::where('status', 'under_investigation')->get();
         $users = User::all();
-        return view('investigations.create', compact('reports', 'users'));
+        return view('pages.investigations.create', compact('reports', 'users'));
     }
 
     /**
@@ -47,6 +58,9 @@ class InvestigationController extends Controller
         $data = $request->validated();
         $investigation = Investigation::create($data);
 
+        // Kirim notifikasi
+        $this->notificationService->investigationStarted($investigation);
+
         return redirect()->route('investigations.show', $investigation)->with('success', 'Investigasi berhasil dibuat.');
     }
 
@@ -59,7 +73,7 @@ class InvestigationController extends Controller
     public function show(Investigation $investigation)
     {
         $investigation->load('report', 'teamLeader', 'investigationTeams.member', 'investigationActivities.performer', 'investigationTools');
-        return view('investigations.show', compact('investigation'));
+        return view('pages.investigations.show', compact('investigation'));
     }
 
     /**
@@ -71,7 +85,7 @@ class InvestigationController extends Controller
     public function edit(Investigation $investigation)
     {
         $users = User::all();
-        return view('investigations.edit', compact('investigation', 'users'));
+        return view('pages.investigations.edit', compact('investigation', 'users'));
     }
 
     /**

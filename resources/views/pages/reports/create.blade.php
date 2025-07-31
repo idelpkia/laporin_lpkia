@@ -80,6 +80,8 @@
                                         </ul>
                                     </div>
                                 @endif
+                                {{-- komponen alert --}}
+                                @include('components.alert')
 
                                 <form action="{{ route('reports.store') }}" method="POST" enctype="multipart/form-data"
                                     id="reportForm">
@@ -476,7 +478,7 @@
                     e.preventDefault();
                     alert(
                         'Ada dokumen yang tidak memiliki file. Silakan hapus atau pilih file yang valid.'
-                        );
+                    );
                     return false;
                 }
 

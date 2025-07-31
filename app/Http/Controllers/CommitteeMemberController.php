@@ -13,14 +13,14 @@ class CommitteeMemberController extends Controller
     public function index()
     {
         $committeeMembers = CommitteeMember::with('user')->paginate(10);
-        return view('committee_members.index', compact('committeeMembers'));
+        return view('pages.committee_members.index', compact('committeeMembers'));
     }
 
     // Form tambah anggota
     public function create()
     {
         $users = User::all();
-        return view('committee_members.create', compact('users'));
+        return view('pages.committee_members.create', compact('users'));
     }
 
     // Simpan data baru
@@ -36,14 +36,14 @@ class CommitteeMemberController extends Controller
     public function show(CommitteeMember $committeeMember)
     {
         $committeeMember->load('user');
-        return view('committee_members.show', compact('committeeMember'));
+        return view('pages.committee_members.show', compact('committeeMember'));
     }
 
     // Form edit
     public function edit(CommitteeMember $committeeMember)
     {
         $users = User::all();
-        return view('committee_members.edit', compact('committeeMember', 'users'));
+        return view('pages.committee_members.edit', compact('committeeMember', 'users'));
     }
 
     // Update data

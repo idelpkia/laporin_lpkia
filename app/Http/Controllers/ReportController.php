@@ -6,11 +6,19 @@ use App\Http\Requests\ReportRequest;
 use App\Models\Report;
 use App\Models\ViolationType;
 use App\Models\WorkflowLog;
+use App\Services\NotificationService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
 class ReportController extends Controller
 {
+    protected $notificationService;
+
+    public function __construct(NotificationService $notificationService)
+    {
+        $this->notificationService = $notificationService;
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -24,7 +32,7 @@ class ReportController extends Controller
             })
             ->latest()->paginate(10);
 
-        return view('reports.index', compact('reports'));
+        return view('pages.reports.index', compact('reports'));
     }
 
     /**
@@ -63,6 +71,9 @@ class ReportController extends Controller
 
             // Handle upload dokumen jika ada
             $this->handleDocumentUpload($request, $report);
+
+            // Kirim notifikasi
+            $this->notificationService->newReportNotification($report);
 
             return redirect()->route('reports.show', $report)
                 ->with('success', 'Laporan berhasil dibuat dengan nomor: ' . $report->report_number);
@@ -117,11 +128,18 @@ class ReportController extends Controller
             // Hapus data yang tidak diperlukan untuk update
             unset($data['documents'], $data['document_types']);
 
+            $oldStatus = $report->status;
+
             // Update laporan
             $report->update($data);
 
             // Handle upload dokumen baru jika ada
             $this->handleDocumentUpload($request, $report);
+
+            // Jika status berubah, kirim notifikasi
+            if ($oldStatus !== $report->status) {
+                $this->notificationService->reportStatusUpdated($report, $oldStatus, $report->status);
+            }
 
             return redirect()->route('reports.show', $report)
                 ->with('success', 'Laporan berhasil diperbarui.');

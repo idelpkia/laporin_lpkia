@@ -7,22 +7,30 @@ use App\Models\Penalty;
 use App\Models\PenaltyLevel;
 use App\Models\Report;
 use App\Models\User;
+use App\Services\NotificationService;
 use Illuminate\Http\Request;
 
 class PenaltyController extends Controller
 {
+    protected $notificationService;
+
+    public function __construct(NotificationService $notificationService)
+    {
+        $this->notificationService = $notificationService;
+    }
+
     // Daftar sanksi
     public function index()
     {
         $penalties = Penalty::with('report', 'penaltyLevel', 'decider')->paginate(10);
-        return view('penalties.index', compact('penalties'));
+        return view('pages.penalties.index', compact('penalties'));
     }
 
     // Detail sanksi
     public function show(Penalty $penalty)
     {
         $penalty->load('report', 'penaltyLevel', 'decider');
-        return view('penalties.show', compact('penalty'));
+        return view('pages.penalties.show', compact('penalty'));
     }
 
     // Form buat sanksi
@@ -31,7 +39,7 @@ class PenaltyController extends Controller
         $reports = Report::all();
         $penaltyLevels = PenaltyLevel::all();
         $users = User::all();
-        return view('penalties.create', compact('reports', 'penaltyLevels', 'users'));
+        return view('pages.penalties.create', compact('reports', 'penaltyLevels', 'users'));
     }
 
     // Simpan sanksi baru
@@ -39,6 +47,9 @@ class PenaltyController extends Controller
     {
         $data = $request->validated();
         $penalty = Penalty::create($data);
+
+        // Kirim notifikasi
+        $this->notificationService->penaltyAssigned($penalty);
 
         return redirect()->route('penalties.show', $penalty)->with('success', 'Sanksi berhasil dibuat.');
     }
@@ -49,7 +60,7 @@ class PenaltyController extends Controller
         $reports = Report::all();
         $penaltyLevels = PenaltyLevel::all();
         $users = User::all();
-        return view('penalties.edit', compact('penalty', 'reports', 'penaltyLevels', 'users'));
+        return view('pages.penalties.edit', compact('penalty', 'reports', 'penaltyLevels', 'users'));
     }
 
     // Update sanksi

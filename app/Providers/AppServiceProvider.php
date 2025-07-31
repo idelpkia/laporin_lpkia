@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Services\NotificationService;
 use App\Services\SettingService;
 use Illuminate\Support\ServiceProvider;
 
@@ -14,7 +15,9 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        //
+        $this->app->singleton(NotificationService::class, function ($app) {
+            return new NotificationService();
+        });
     }
 
     /**

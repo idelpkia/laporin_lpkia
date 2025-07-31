@@ -17,8 +17,10 @@ class CreateUsersTable extends Migration
             $table->id();
             $table->string('name');
             $table->string('email')->unique();
+            $table->string('code')->nullable(); //nim, nidn, nip, etc.
             $table->enum('role', ['admin', 'kia_member', 'investigator', 'student', 'lecturer', 'staff']);
-            $table->string('department')->nullable();
+            $table->string('organization')->nullable(); // Organisasi/ Nama kampus (jika ada)
+            $table->string('department')->nullable(); // Jurusan/Departemen
             $table->string('phone')->nullable();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');

@@ -76,6 +76,8 @@ class UserController extends Controller
      */
     public function show(User $user)
     {
+        $this->authorize('view', $user);
+
         $user->load([
             'reports',
             'committeeMembers',
@@ -95,6 +97,7 @@ class UserController extends Controller
      */
     public function edit(User $user)
     {
+        $this->authorize('update', $user);
         return view('pages.users.edit', compact('user'));
     }
 
@@ -103,6 +106,7 @@ class UserController extends Controller
      */
     public function update(UpdateUserRequest $request, User $user)
     {
+        $this->authorize('update', $user);
         $data = $request->validated();
 
         // Only hash password if it's provided
@@ -123,6 +127,8 @@ class UserController extends Controller
      */
     public function destroy(User $user)
     {
+        $this->authorize('view', $user);
+
         try {
             $user->delete();
             return redirect()->route('users.index')
